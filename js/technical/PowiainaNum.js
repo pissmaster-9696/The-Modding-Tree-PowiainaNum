@@ -4080,6 +4080,7 @@
   Object.defineProperty(exports, "__esModule", { value: true });
 });
 
-if (typeof PowiainaNum === "object" && PowiainaNum.default) {
-  PowiainaNum = PowiainaNum.default;
+// Properly expose PowiainaNum as the class constructor, not the exports object
+if (typeof window !== "undefined" && typeof window.PowiainaNum === "object" && window.PowiainaNum.default) {
+  window.PowiainaNum = window.PowiainaNum.default;
 }
