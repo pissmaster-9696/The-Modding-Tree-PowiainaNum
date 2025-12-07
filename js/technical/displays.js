@@ -91,7 +91,7 @@ function constructBarStyle(layer, id) {
 	let style = {}
 
 	let tempProgress
-	if (bar.progress instanceof Decimal)
+	if (bar.progress instanceof PowiainaNum)
 		tempProgress = (1 -Math.min(Math.max(bar.progress.toNumber(), 0), 1)) * 100
 	else
 		tempProgress = (1 -Math.min(Math.max(bar.progress, 0), 1)) * 100

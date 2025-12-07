@@ -19,7 +19,7 @@ function getResetGain(layer, useType = null) {
 	if (tmp[layer].gainExp.eq(0)) return decimalZero
 	if (type=="static") {
 		if ((!tmp[layer].canBuyMax) || tmp[layer].baseAmount.lt(tmp[layer].requires)) return decimalOne
-		let gain = tmp[layer].baseAmount.div(tmp[layer].requires).div(tmp[layer].gainMult).max(1).log(tmp[layer].base).mul(tmp[layer].gainExp).pow(Decimal.pow(tmp[layer].exponent, -1))
+		let gain = tmp[layer].baseAmount.div(tmp[layer].requires).div(tmp[layer].gainMult).max(1).log(tmp[layer].base).mul(tmp[layer].gainExp).pow(PowiainaNum.pow(tmp[layer].exponent, -1))
 		gain = gain.mul(tmp[layer].directMult)
 		return gain.floor().sub(player[layer].points).add(1).max(1);
 	} else if (type=="normal"){
@@ -53,7 +53,7 @@ function getNextAt(layer, canMax=false, useType = null) {
 	{
 		if (!tmp[layer].canBuyMax) canMax = false
 		let amt = player[layer].points.plus((canMax&&tmp[layer].baseAmount.gte(tmp[layer].nextAt))?tmp[layer].resetGain:0).div(tmp[layer].directMult)
-		let extraCost = Decimal.pow(tmp[layer].base, amt.pow(tmp[layer].exponent).div(tmp[layer].gainExp)).mul(tmp[layer].gainMult)
+		let extraCost = PowiainaNum.pow(tmp[layer].base, amt.pow(tmp[layer].exponent).div(tmp[layer].gainExp)).mul(tmp[layer].gainMult)
 		let cost = extraCost.mul(tmp[layer].requires).max(tmp[layer].requires)
 		if (tmp[layer].roundUpCost) cost = cost.ceil()
 		return cost;

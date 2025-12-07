@@ -4080,4 +4080,6 @@
   Object.defineProperty(exports, "__esModule", { value: true });
 });
 
-PowiainaNum = PowiainaNum.default;
+if (typeof PowiainaNum === "object" && PowiainaNum.default) {
+  PowiainaNum = PowiainaNum.default;
+}

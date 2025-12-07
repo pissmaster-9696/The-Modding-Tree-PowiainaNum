@@ -1,7 +1,7 @@
 
 function exponentialFormat(num, precision, mantissa = true) {
     let e = num.log10().floor()
-    let m = num.div(Decimal.pow(10, e))
+    let m = num.div(PowiainaNum.pow(10, e))
     if (m.toStringWithDecimalPlaces(precision) == 10) {
         m = decimalOne
         e = e.add(1)
@@ -37,7 +37,7 @@ function fixValue(x, y = 0) {
 function sumValues(x) {
     x = Object.values(x)
     if (!x[0]) return decimalZero
-    return x.reduce((a, b) => Decimal.add(a, b))
+    return x.reduce((a, b) => PowiainaNum.add(a, b))
 }
 
 function format(decimal, precision = 2, small) {
@@ -52,7 +52,7 @@ function format(decimal, precision = 2, small) {
     if (decimal.gte("eeee1000")) {
         var slog = decimal.slog()
         if (slog.gte(1e6)) return "F" + format(slog.floor())
-        else return Decimal.pow(10, slog.sub(slog.floor())).toStringWithDecimalPlaces(3) + "F" + commaFormat(slog.floor(), 0)
+        else return PowiainaNum.pow(10, slog.sub(slog.floor())).toStringWithDecimalPlaces(3) + "F" + commaFormat(slog.floor(), 0)
     }
     else if (decimal.gte("1e1000000")) return exponentialFormat(decimal, 0, false)
     else if (decimal.gte("1e10000")) return exponentialFormat(decimal, 0)

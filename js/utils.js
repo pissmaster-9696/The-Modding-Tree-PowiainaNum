@@ -344,8 +344,8 @@ document.title = modInfo.name
 
 // Converts a string value to whatever it's supposed to be
 function toValue(value, oldValue) {
-	if (oldValue instanceof Decimal) {
-		value = new Decimal (value)
+	if (oldValue instanceof PowiainaNum) {
+		value = new PowiainaNum (value)
 		if (checkDecimalNaN(value)) return decimalZero
 		return value
 	}
