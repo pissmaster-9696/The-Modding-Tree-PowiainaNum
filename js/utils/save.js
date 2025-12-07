@@ -252,7 +252,7 @@ function NaNcheck(data) {
 				return
 			}
 		}
-		else if (data[item] instanceof Decimal) {
+		else if (data[item] instanceof PowiainaNum) {
 		}
 		else if ((!!data[item]) && (data[item].constructor === Object)) {
 			NaNcheck(data[item]);
