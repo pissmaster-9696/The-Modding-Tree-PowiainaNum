@@ -4081,6 +4081,11 @@
 });
 
 // Properly expose PowiainaNum as the class constructor, not the exports object
-if (typeof window !== "undefined" && typeof window.PowiainaNum === "object" && window.PowiainaNum.default) {
-  window.PowiainaNum = window.PowiainaNum.default;
+try {
+  if (typeof window !== "undefined" && typeof window.PowiainaNum === "object" && window.PowiainaNum && window.PowiainaNum.default) {
+    var PowiainaNumClass = window.PowiainaNum.default;
+    window.PowiainaNum = PowiainaNumClass;
+  }
+} catch (e) {
+  console.error("Error unwrapping PowiainaNum:", e);
 }

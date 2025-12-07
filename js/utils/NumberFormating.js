@@ -1,21 +1,38 @@
+// Helper function to format PowiainaNum with decimal places (polyfill for toStringWithDecimalPlaces)
+// This mimics the Decimal.js behavior for PowiainaNum
+function powiainaNumToStringWithDecimalPlaces(num, places) {
+    if (typeof num.toStringWithDecimalPlaces === 'function') {
+        return num.toStringWithDecimalPlaces(places);
+    }
+    // For PowiainaNum, try to convert to number if small enough
+    try {
+        const asNumber = num.toNumber();
+        if (isFinite(asNumber)) {
+            return asNumber.toFixed(places);
+        }
+    } catch (e) {
+        // Fall back to toString if conversion fails
+    }
+    return num.toString();
+}
 
 function exponentialFormat(num, precision, mantissa = true) {
     let e = num.log10().floor()
     let m = num.div(PowiainaNum.pow(10, e))
-    if (m.toStringWithDecimalPlaces(precision) == 10) {
+    if (powiainaNumToStringWithDecimalPlaces(m, precision) == 10) {
         m = decimalOne
         e = e.add(1)
     }
-    e = (e.gte(1e9) ? format(e, 3) : (e.gte(10000) ? commaFormat(e, 0) : e.toStringWithDecimalPlaces(0)))
+    e = (e.gte(1e9) ? format(e, 3) : (e.gte(10000) ? commaFormat(e, 0) : powiainaNumToStringWithDecimalPlaces(e, 0)))
     if (mantissa)
-        return m.toStringWithDecimalPlaces(precision) + "e" + e
+        return powiainaNumToStringWithDecimalPlaces(m, precision) + "e" + e
     else return "e" + e
 }
 
 function commaFormat(num, precision) {
     if (num === null || num === undefined) return "NaN"
-    if (num.mag < 0.001) return (0).toFixed(precision)
-    let init = num.toStringWithDecimalPlaces(precision)
+    if (num.lt(0.001)) return (0).toFixed(precision)
+    let init = powiainaNumToStringWithDecimalPlaces(num, precision)
     let portions = init.split(".")
     portions[0] = portions[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
     if (portions.length == 1) return portions[0]
@@ -25,9 +42,9 @@ function commaFormat(num, precision) {
 
 function regularFormat(num, precision) {
     if (num === null || num === undefined) return "NaN"
-    if (num.mag < 0.0001) return (0).toFixed(precision)
-    if (num.mag < 0.1 && precision !==0) precision = Math.max(precision, 4)
-    return num.toStringWithDecimalPlaces(precision)
+    if (num.lt(0.0001)) return (0).toFixed(precision)
+    if (num.lt(0.1) && precision !==0) precision = Math.max(precision, 4)
+    return powiainaNumToStringWithDecimalPlaces(num, precision)
 }
 
 function fixValue(x, y = 0) {
@@ -43,16 +60,16 @@ function sumValues(x) {
 function format(decimal, precision = 2, small) {
     small = small || modInfo.allowSmall
     decimal = new PowiainaNum(decimal)
-    if (isNaN(decimal.sign) || isNaN(decimal.layer) || isNaN(decimal.mag)) {
+    if (isNaN(decimal.sign) || isNaN(decimal.layer)) {
         player.hasNaN = true;
         return "NaN"
     }
     if (decimal.sign < 0) return "-" + format(decimal.neg(), precision, small)
-    if (decimal.mag == Number.POSITIVE_INFINITY) return "Infinity"
+    if (decimal.isInfi()) return "Infinity"
     if (decimal.gte("eeee1000")) {
         var slog = decimal.slog()
         if (slog.gte(1e6)) return "F" + format(slog.floor())
-        else return PowiainaNum.pow(10, slog.sub(slog.floor())).toStringWithDecimalPlaces(3) + "F" + commaFormat(slog.floor(), 0)
+        else return powiainaNumToStringWithDecimalPlaces(PowiainaNum.pow(10, slog.sub(slog.floor())), 3) + "F" + commaFormat(slog.floor(), 0)
     }
     else if (decimal.gte("1e1000000")) return exponentialFormat(decimal, 0, false)
     else if (decimal.gte("1e10000")) return exponentialFormat(decimal, 0)
@@ -89,9 +106,9 @@ function formatTime(s) {
 
 function toPlaces(x, precision, maxAccepted) {
     x = new PowiainaNum(x)
-    let result = x.toStringWithDecimalPlaces(precision)
+    let result = powiainaNumToStringWithDecimalPlaces(x, precision)
     if (new PowiainaNum(result).gte(maxAccepted)) {
-        result = new PowiainaNum(maxAccepted - Math.pow(0.1, precision)).toStringWithDecimalPlaces(precision)
+        result = powiainaNumToStringWithDecimalPlaces(new PowiainaNum(maxAccepted - Math.pow(0.1, precision)), precision)
     }
     return result
 }

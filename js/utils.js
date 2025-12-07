@@ -250,7 +250,7 @@ function keepGoing() {
 }
 
 function toNumber(x) {
-	if (x.mag !== undefined) return x.toNumber()
+	if (typeof x.toNumber === 'function') return x.toNumber()
 	if (x + 0 !== x) return parseFloat(x)
 	return x
 }
