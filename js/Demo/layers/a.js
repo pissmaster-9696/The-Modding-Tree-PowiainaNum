@@ -3,7 +3,7 @@
 addLayer("a", {
     startData() { return {
         unlocked: true,
-        points: new Decimal(0),
+        points: new PowiainaNum(0),
     }},
     color: "yellow",
     resource: "achievement power", 

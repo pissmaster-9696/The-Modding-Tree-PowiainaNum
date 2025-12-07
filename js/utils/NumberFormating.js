@@ -31,7 +31,7 @@ function regularFormat(num, precision) {
 }
 
 function fixValue(x, y = 0) {
-    return x || new Decimal(y)
+    return x || new PowiainaNum(y)
 }
 
 function sumValues(x) {
@@ -42,7 +42,7 @@ function sumValues(x) {
 
 function format(decimal, precision = 2, small) {
     small = small || modInfo.allowSmall
-    decimal = new Decimal(decimal)
+    decimal = new PowiainaNum(decimal)
     if (isNaN(decimal.sign) || isNaN(decimal.layer) || isNaN(decimal.mag)) {
         player.hasNaN = true;
         return "NaN"
@@ -73,7 +73,7 @@ function format(decimal, precision = 2, small) {
 }
 
 function formatWhole(decimal) {
-    decimal = new Decimal(decimal)
+    decimal = new PowiainaNum(decimal)
     if (decimal.gte(1e9)) return format(decimal, 2)
     if (decimal.lte(0.99) && !decimal.eq(0)) return format(decimal, 2)
     return format(decimal, 0)
@@ -88,10 +88,10 @@ function formatTime(s) {
 }
 
 function toPlaces(x, precision, maxAccepted) {
-    x = new Decimal(x)
+    x = new PowiainaNum(x)
     let result = x.toStringWithDecimalPlaces(precision)
-    if (new Decimal(result).gte(maxAccepted)) {
-        result = new Decimal(maxAccepted - Math.pow(0.1, precision)).toStringWithDecimalPlaces(precision)
+    if (new PowiainaNum(result).gte(maxAccepted)) {
+        result = new PowiainaNum(maxAccepted - Math.pow(0.1, precision)).toStringWithDecimalPlaces(precision)
     }
     return result
 }
@@ -103,9 +103,9 @@ function formatSmall(x, precision=2) {
 
 function invertOOM(x){
     let e = x.log10().ceil()
-    let m = x.div(Decimal.pow(10, e))
+    let m = x.div(PowiainaNum.pow(10, e))
     e = e.neg()
-    x = new Decimal(10).pow(e).times(m)
+    x = new PowiainaNum(10).pow(e).times(m)
 
     return x
 }

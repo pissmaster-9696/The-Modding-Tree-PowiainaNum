@@ -11,12 +11,12 @@ addLayer("f", {
 
     startData() { return {
         unlocked: false,
-        points: new Decimal(0),
+        points: new PowiainaNum(0),
         boop: false,
         clickables: {[11]: "Start"}, // Optional default Clickable state
     }},
     color: "#FE0102",
-    requires() {return new Decimal(10)}, 
+    requires() {return new PowiainaNum(10)}, 
     resource: "farm points", 
     baseResource: "points", 
     baseAmount() {return player.points},
@@ -25,7 +25,7 @@ addLayer("f", {
     base: 3,
     roundUpCost: true,
     canBuyMax() {return false},
-    //directMult() {return new Decimal(player.c.otherThingy)},
+    //directMult() {return new PowiainaNum(player.c.otherThingy)},
 
     row: 1,
     layerShown() {return true}, 

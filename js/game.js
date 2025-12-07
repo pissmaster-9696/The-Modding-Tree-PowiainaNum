@@ -44,10 +44,10 @@ function getNextAt(layer, canMax=false, useType = null) {
 
 		}
 	if(tmp[layer].type == "none")
-		return new Decimal (Infinity)
+		return new PowiainaNum (Infinity)
 
-	if (tmp[layer].gainMult.lte(0)) return new Decimal(Infinity)
-	if (tmp[layer].gainExp.lte(0)) return new Decimal(Infinity)
+	if (tmp[layer].gainMult.lte(0)) return new PowiainaNum(Infinity)
+	if (tmp[layer].gainExp.lte(0)) return new PowiainaNum(Infinity)
 
 	if (type=="static") 
 	{

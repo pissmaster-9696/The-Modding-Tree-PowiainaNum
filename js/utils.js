@@ -186,7 +186,7 @@ function goBack(layer) {
 
 function layOver(obj1, obj2) {
 	for (let x in obj2) {
-		if (obj2[x] instanceof Decimal) obj1[x] = new Decimal(obj2[x])
+		if (obj2[x] instanceof PowiainaNum) obj1[x] = new PowiainaNum(obj2[x])
 		else if (obj2[x] instanceof Object) layOver(obj1[x], obj2[x]);
 		else obj1[x] = obj2[x];
 	}
