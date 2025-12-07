@@ -175,5 +175,5 @@ function setupBuyables(layer) {
 }
 
 function checkDecimalNaN(x) {
-	return (x instanceof Decimal) && !x.eq(x)
+	return (x instanceof PowiainaNum) && !x.eq(x)
 }
